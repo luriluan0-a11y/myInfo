@@ -1,530 +1,767 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>함태양 — Game QA Tester</title>
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이윤임 포트폴리오</title>
+  <style>
+    :root {
+      --red: #c0392b;
+      --red-dark: #96281b;
+      --red-light: #e74c3c;
+      --red-pale: #fdf2f2;
+      --gray-900: #1a1a1a;
+      --gray-700: #3d3d3d;
+      --gray-400: #999;
+      --gray-100: #f5f5f5;
+      --white: #ffffff;
+    }
 
-  :root {
-    --accent: #00c896;
-    --accent2: #0080ff;
-    --dark: #0d1117;
-    --card: #161b22;
-    --border: #30363d;
-    --text: #e6edf3;
-    --muted: #8b949e;
-  }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-    background: var(--dark);
-    color: var(--text);
-    line-height: 1.6;
-  }
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      color: var(--gray-900);
+      line-height: 1.7;
+      background: var(--white);
+    }
 
-  /* ── HEADER ── */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(13,17,23,0.88);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 4rem;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(192,57,43,0.12);
+    }
 
-  nav {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 32px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: -0.5px;
+    }
 
-  .logo {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 1px;
-  }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
 
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13px;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--text); }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-700);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
 
-  /* ── HERO ── */
-  .hero {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 100px 32px 80px;
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 60px;
-    align-items: center;
-  }
+    .nav-links a:hover { color: var(--red); }
 
-  .hero-text .badge {
-    display: inline-block;
-    background: rgba(0,200,150,.12);
-    color: var(--accent);
-    border: 1px solid rgba(0,200,150,.3);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-  }
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 4rem 4rem;
+      background: linear-gradient(135deg, var(--gray-900) 0%, #2c0a08 50%, var(--red-dark) 100%);
+      position: relative;
+      overflow: hidden;
+    }
 
-  .hero-text h1 {
-    font-size: 52px;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 8px;
-  }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(192,57,43,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-  .hero-text h1 span { color: var(--accent); }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(231,76,60,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-  .hero-text .en-name {
-    font-size: 18px;
-    color: var(--muted);
-    margin-bottom: 28px;
-    letter-spacing: 1px;
-  }
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 1;
+    }
 
-  .hero-text .desc {
-    font-size: 15px;
-    color: var(--muted);
-    max-width: 500px;
-    line-height: 1.8;
-    margin-bottom: 36px;
-  }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: rgba(192,57,43,0.4);
+      border: 1px solid rgba(231,76,60,0.5);
+      border-radius: 100px;
+      color: #ffb3ad;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
 
-  .contact-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
 
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--muted);
-  }
+    .hero-name span {
+      color: var(--red-light);
+    }
 
-  .contact-item svg { flex-shrink: 0; }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
 
-  .hero-photo {
-    display: flex;
-    justify-content: center;
-  }
+    .hero-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 480px;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
 
-  .photo-frame {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    padding: 3px;
-  }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
 
-  .photo-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: var(--card);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 64px;
-    overflow: hidden;
-  }
+    .tag {
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.8rem;
+    }
 
-  /* ── SECTIONS ── */
-  section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 64px 32px;
-    border-top: 1px solid var(--border);
-  }
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 4rem; }
 
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
 
-  .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 40px;
-  }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--gray-900);
+      margin-bottom: 3.5rem;
+      line-height: 1.2;
+    }
 
-  /* ── EXPERIENCE ── */
-  .exp-block {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 48px;
-  }
+    .section-title span { color: var(--red); }
 
-  .exp-block::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 8px;
-    bottom: -32px;
-    width: 1px;
-    background: var(--border);
-  }
+    /* ── ABOUT ── */
+    #about { background: var(--white); }
 
-  .exp-block:last-child::before { display: none; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
 
-  .exp-dot {
-    position: absolute;
-    left: -5px;
-    top: 6px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--dark);
-  }
+    .about-card {
+      background: var(--red-pale);
+      border-left: 4px solid var(--red);
+      padding: 2rem;
+      border-radius: 0 12px 12px 0;
+    }
 
-  .exp-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 6px;
-  }
+    .about-card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
 
-  .exp-company {
-    font-size: 17px;
-    font-weight: 700;
-  }
+    .about-card p {
+      font-size: 1rem;
+      color: var(--gray-700);
+      font-weight: 500;
+    }
 
-  .exp-period {
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    padding-top: 3px;
-  }
+    .about-quote {
+      grid-column: 1 / -1;
+      background: var(--gray-900);
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      position: relative;
+    }
 
-  .exp-role {
-    font-size: 13px;
-    color: var(--accent);
-    margin-bottom: 20px;
-  }
+    .about-quote::before {
+      content: '"';
+      position: absolute;
+      top: -0.5rem; left: 2rem;
+      font-size: 6rem;
+      color: var(--red);
+      font-family: Georgia, serif;
+      line-height: 1;
+      opacity: 0.4;
+    }
 
-  .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 24px;
-    margin-bottom: 12px;
-    transition: border-color .2s;
-  }
+    .about-quote p {
+      font-size: 1.3rem;
+      color: var(--white);
+      font-weight: 500;
+      line-height: 1.7;
+    }
 
-  .project-card:hover { border-color: var(--accent); }
+    .about-quote cite {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      font-style: normal;
+    }
 
-  .project-name {
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
+    /* ── EDUCATION ── */
+    #education { background: var(--gray-100); }
 
-  .project-type {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 1px;
-    background: rgba(0,128,255,.15);
-    color: #60a5fa;
-    border-radius: 4px;
-    padding: 2px 8px;
-    margin-bottom: 10px;
-  }
+    .edu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-width: 800px;
+    }
 
-  .project-type.live {
-    background: rgba(0,200,150,.1);
-    color: var(--accent);
-  }
+    .edu-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      background: var(--white);
+      padding: 1.75rem 2rem;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-  .project-card ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+    .edu-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(192,57,43,0.1);
+    }
 
-  .project-card li {
-    font-size: 13px;
-    color: var(--muted);
-    padding-left: 14px;
-    position: relative;
-  }
+    .edu-icon {
+      width: 48px; height: 48px;
+      background: var(--red-pale);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
 
-  .project-card li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
+    .edu-info h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.25rem;
+    }
 
-  /* ── SKILLS ── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-  }
+    .edu-info p {
+      font-size: 0.88rem;
+      color: var(--gray-400);
+    }
 
-  .skill-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    transition: border-color .2s, transform .2s;
-  }
+    .edu-badge {
+      display: inline-block;
+      margin-top: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      background: var(--red-pale);
+      color: var(--red);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
 
-  .skill-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-  }
+    /* ── SKILLS ── */
+    #skills { background: var(--white); }
 
-  .skill-card-title {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
 
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+    .skill-card {
+      background: var(--white);
+      border: 1px solid #ebebeb;
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
 
-  .tag {
-    font-size: 12px;
-    background: rgba(255,255,255,.05);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 4px 10px;
-    border-radius: 6px;
-  }
+    .skill-card:hover {
+      border-color: var(--red-light);
+      transform: translateY(-3px);
+    }
 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    text-align: center;
-    padding: 32px;
-    font-size: 12px;
-    color: var(--muted);
-  }
+    .skill-card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 1.2rem;
+    }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 700px) {
-    .hero { grid-template-columns: 1fr; text-align: center; padding: 60px 24px 40px; }
-    .hero-photo { order: -1; }
-    .contact-row { justify-content: center; }
-    .hero-text h1 { font-size: 36px; }
-    .exp-header { flex-direction: column; }
-    section { padding: 48px 24px; }
-  }
-</style>
+    .skill-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      padding: 0.4rem 0.9rem;
+      background: var(--gray-100);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .chip:hover {
+      background: var(--red-pale);
+      color: var(--red);
+    }
+
+    .chip.highlight {
+      background: var(--red-pale);
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    /* ── STRENGTHS ── */
+    #strengths { background: var(--gray-900); }
+
+    #strengths .section-title { color: var(--white); }
+    #strengths .section-label { color: #ff8a80; }
+
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .strength-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .strength-card:hover {
+      background: rgba(192,57,43,0.15);
+      border-color: rgba(231,76,60,0.3);
+    }
+
+    .strength-num {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--red-light);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .strength-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+
+    .strength-card p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    /* ── LEARNING ── */
+    #learning { background: var(--red-pale); }
+
+    .learning-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .learning-item {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 14px;
+      border-top: 3px solid var(--red);
+    }
+
+    .learning-item h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .learning-item ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .learning-item li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--gray-700);
+    }
+
+    .learning-item li::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gray-900);
+      padding: 3rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer .footer-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 0.25rem;
+    }
+
+    .footer-dot {
+      width: 10px; height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(231,76,60,0.6);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 5rem 1.5rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .learning-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+
+    /* ── SCROLL ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
+  <!-- NAV -->
   <nav>
-    <div class="logo">HAM TAEYANG</div>
+    <div class="nav-logo">이윤임</div>
     <ul class="nav-links">
-      <li><a href="#experience">경력</a></li>
+      <li><a href="#about">소개</a></li>
+      <li><a href="#education">학력</a></li>
       <li><a href="#skills">기술</a></li>
-      <li><a href="#contact">연락처</a></li>
+      <li><a href="#strengths">강점</a></li>
+      <li><a href="#learning">학습</a></li>
     </ul>
   </nav>
-</header>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-text">
-    <div class="badge">Game QA Tester</div>
-    <h1>함<span>태양</span></h1>
-    <div class="en-name">Ham Taeyang</div>
-    <p class="desc">
-      체크리스트 기반의 체계적인 기능 테스트와 BTS 툴을 활용한<br>
-      버그리포트 작성 경험을 가진 게임 QA 테스터입니다.<br>
-      라이브 서비스와 개발 단계 모두에서 품질을 검증합니다.
-    </p>
-    <div class="contact-row">
-      <div class="contact-item">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-        </svg>
-        010-5217-0580
-      </div>
-      <div class="contact-item">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-        </svg>
-        sunham83@gmail.com
-      </div>
-      <div class="contact-item">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
-        </svg>
-        게임 QA (지원 포지션)
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Game Content · AI · Vibe Coding</div>
+      <h1 class="hero-name">이<span>윤임</span></h1>
+      <p class="hero-title">게임콘텐츠 전공 교수 · 공학박사 · 바이브 코더</p>
+      <p class="hero-desc">
+        원하는 것이 있으면 될 때까지 포기하지 않는 사람.<br>
+        솔직하게, 강하게, 나답게.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">유한대학교</span>
+        <span class="tag">컴퓨터공학과</span>
+        <span class="tag">게임콘텐츠전공</span>
+        <span class="tag">상명대 게임학 박사</span>
+        <span class="tag">서울 서초구</span>
       </div>
     </div>
-  </div>
-  <div class="hero-photo">
-    <div class="photo-frame">
-      <div class="photo-inner">🎮</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="fade-in">
+      <span class="section-label">About Me</span>
+      <h2 class="section-title">나는 <span>이런 사람</span>입니다</h2>
     </div>
-  </div>
-</div>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-label">Work Experience</div>
-  <h2 class="section-title">주요 경력 사항</h2>
-
-  <div class="exp-block">
-    <div class="exp-dot"></div>
-    <div class="exp-header">
-      <div class="exp-company">(주)게임덱스 &nbsp;·&nbsp; QA 인턴</div>
-      <div class="exp-period">2024.08 — 2024.12</div>
-    </div>
-    <div class="exp-role">Quality Assurance Intern</div>
-
-    <div class="project-card">
-      <div class="project-name">Disney Realm Breakers</div>
-      <div class="project-type live">라이브 서비스 QA</div>
-      <ul>
-        <li>체크리스트 기반 신규 기능 테스트 수행</li>
-        <li>BTS 툴을 활용한 버그리포트 작성</li>
-        <li>수정 이슈 확인 및 회귀 테스트 수행</li>
-      </ul>
-    </div>
-
-    <div class="project-card">
-      <div class="project-name">Line Brown Farm</div>
-      <div class="project-type">개발 QA</div>
-      <ul>
-        <li>체크리스트 기반 신규 기능 테스트 수행</li>
-      </ul>
-    </div>
-
-    <div class="project-card">
-      <div class="project-name">Golf Zone</div>
-      <div class="project-type live">라이브 서비스 QA</div>
-      <ul>
-        <li>체크리스트 기반 신규 기능 테스트 수행</li>
-        <li>테스트 시나리오 기반으로 동선 테스트 수행</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-label">Technical Skills</div>
-  <h2 class="section-title">보유 기술</h2>
-
-  <div class="skills-grid">
-    <div class="skill-card">
-      <div class="skill-card-title">Programming</div>
-      <div class="skill-tags">
-        <span class="tag">C</span>
-        <span class="tag">C#</span>
-        <span class="tag">HTML5</span>
-        <span class="tag">CSS</span>
-        <span class="tag">초급</span>
+    <div class="about-grid">
+      <div class="about-card fade-in">
+        <h3>한 단어로</h3>
+        <p>까칠함 — 기준이 명확하고, 타협하지 않는 에너지</p>
+      </div>
+      <div class="about-card fade-in">
+        <h3>색깔로 표현하면</h3>
+        <p>빨간색 — 에너지가 높고 강렬하며 존재감이 뚜렷한 사람</p>
+      </div>
+      <div class="about-card fade-in">
+        <h3>가장 자랑스러운 점</h3>
+        <p>원하는 것이 생기면 포기하지 않고 끝까지 해내는 집념</p>
+      </div>
+      <div class="about-card fade-in">
+        <h3>계기</h3>
+        <p>학생들에게 포트폴리오 웹사이트 제작 시범을 보여주기 위해</p>
+      </div>
+      <div class="about-quote fade-in">
+        <p>어릴 때 꿈이 선생님이었는데, 막상 되고 나니 생각과 다른 것들도 있더라고요. 그래도 여기까지 왔고, 지금도 새로운 것을 배우며 학생들 앞에 서고 있습니다.</p>
+        <cite>— 이윤임, 교수이자 바이브 코더</cite>
       </div>
     </div>
+  </section>
 
-    <div class="skill-card">
-      <div class="skill-card-title">MS Office</div>
-      <div class="skill-tags">
-        <span class="tag">Word</span>
-        <span class="tag">PowerPoint</span>
-        <span class="tag">Excel</span>
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="fade-in">
+      <span class="section-label">Education</span>
+      <h2 class="section-title">학력 &amp; <span>배경</span></h2>
+    </div>
+    <div class="edu-list">
+      <div class="edu-item fade-in">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-info">
+          <h3>상명대학교 게임학과</h3>
+          <p>박사 · 2023년 졸업</p>
+          <span class="edu-badge">Ph.D.</span>
+        </div>
+      </div>
+      <div class="edu-item fade-in">
+        <div class="edu-icon">📘</div>
+        <div class="edu-info">
+          <h3>상명대학교 게임학과</h3>
+          <p>석사 졸업</p>
+          <span class="edu-badge">M.S.</span>
+        </div>
+      </div>
+      <div class="edu-item fade-in">
+        <div class="edu-icon">💻</div>
+        <div class="edu-info">
+          <h3>컴퓨터공학 학사</h3>
+          <p>학부 졸업 · 학업과 직장 병행</p>
+          <span class="edu-badge">B.S. Computer Science</span>
+        </div>
+      </div>
+      <div class="edu-item fade-in">
+        <div class="edu-icon">🧠</div>
+        <div class="edu-info">
+          <h3>상담심리학 학사</h3>
+          <p>학부 졸업</p>
+          <span class="edu-badge">B.A. Counseling Psychology</span>
+        </div>
+      </div>
+      <div class="edu-item fade-in">
+        <div class="edu-icon">🏫</div>
+        <div class="edu-info">
+          <h3>유한대학교 컴퓨터공학과 게임콘텐츠전공</h3>
+          <p>현재 재직 · 교수</p>
+          <span class="edu-badge">현직</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="skill-card">
-      <div class="skill-card-title">개발 툴</div>
-      <div class="skill-tags">
-        <span class="tag">Redmine</span>
-        <span class="tag">Unity 3D</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Github</span>
-        <span class="tag">Visual Studio</span>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="fade-in">
+      <span class="section-label">Skills</span>
+      <h2 class="section-title">기술 <span>스택</span></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">프로그래밍 언어</div>
+        <div class="skill-chips">
+          <span class="chip highlight">HTML / CSS</span>
+          <span class="chip highlight">JavaScript</span>
+          <span class="chip">Java</span>
+          <span class="chip">C#</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">데이터베이스</div>
+        <div class="skill-chips">
+          <span class="chip">MySQL</span>
+          <span class="chip">SQLite</span>
+          <span class="chip">Apache</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">디자인 툴</div>
+        <div class="skill-chips">
+          <span class="chip">Figma</span>
+          <span class="chip">Photoshop</span>
+          <span class="chip">그림판 (마스터)</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">관심 분야</div>
+        <div class="skill-chips">
+          <span class="chip highlight">Vibe Coding</span>
+          <span class="chip highlight">AI</span>
+          <span class="chip">게임콘텐츠</span>
+          <span class="chip">교육</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="skill-card">
-      <div class="skill-card-title">디자인</div>
-      <div class="skill-tags">
-        <span class="tag">Photoshop</span>
-        <span class="tag">Illustrator</span>
-        <span class="tag">Clip Studio</span>
-        <span class="tag">Sai Tool</span>
+  <!-- STRENGTHS -->
+  <section id="strengths">
+    <div class="fade-in">
+      <span class="section-label">Strengths</span>
+      <h2 class="section-title">나만의 <span>강점</span></h2>
+    </div>
+    <div class="strengths-grid">
+      <div class="strength-card fade-in">
+        <div class="strength-num">01</div>
+        <h3>포기하지 않는 집념</h3>
+        <p>원하는 것이 있으면 될 때까지 끝까지 밀어붙인다. 학부와 직장을 병행하며 박사까지 마친 게 그 증거.</p>
+      </div>
+      <div class="strength-card fade-in">
+        <div class="strength-num">02</div>
+        <h3>솔직함과 명확함</h3>
+        <p>좋은 것은 좋다, 아닌 것은 아니다. 기준이 명확하고 흔들리지 않는 것이 이 사람의 매력.</p>
+      </div>
+      <div class="strength-card fade-in">
+        <div class="strength-num">03</div>
+        <h3>기획 리더십</h3>
+        <p>팀 프로젝트에서 항상 기획을 맡아 방향을 잡고 이끌었다. 먼저 생각하고 먼저 움직이는 스타일.</p>
+      </div>
+      <div class="strength-card fade-in">
+        <div class="strength-num">04</div>
+        <h3>차별화 마인드</h3>
+        <p>과제나 프로젝트를 할 때 항상 '어떻게 하면 남들과 다르게 할 수 있을까'를 먼저 고민한다.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-label">Contact</div>
-  <h2 class="section-title">연락처</h2>
-  <div style="display:flex; gap:16px; flex-wrap:wrap;">
-    <a href="tel:010-5217-0580" style="
-      display:flex; align-items:center; gap:10px;
-      background:var(--card); border:1px solid var(--border);
-      color:var(--text); text-decoration:none;
-      padding:16px 28px; border-radius:10px; font-size:14px;
-      transition: border-color .2s;
-    " onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-      </svg>
-      010-5217-0580
-    </a>
-    <a href="mailto:sunham83@gmail.com" style="
-      display:flex; align-items:center; gap:10px;
-      background:var(--card); border:1px solid var(--border);
-      color:var(--text); text-decoration:none;
-      padding:16px 28px; border-radius:10px; font-size:14px;
-      transition: border-color .2s;
-    " onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-      </svg>
-      sunham83@gmail.com
-    </a>
-  </div>
-</section>
+  <!-- LEARNING -->
+  <section id="learning">
+    <div class="fade-in">
+      <span class="section-label">Learning Journey</span>
+      <h2 class="section-title">배움의 <span>여정</span></h2>
+    </div>
+    <div class="learning-grid">
+      <div class="learning-item fade-in">
+        <h3>인상 깊었던 경험</h3>
+        <ul>
+          <li>지피터스 21기 베스트 오브 베스트 수상</li>
+          <li>지피터스 22기 베스트 오브 베스트 연속 수상</li>
+          <li>바이브 코딩으로 HTML 코드 직접 수정</li>
+          <li>실습 위주 프로그래밍 독학</li>
+        </ul>
+      </div>
+      <div class="learning-item fade-in">
+        <h3>앞으로 나아갈 방향</h3>
+        <ul>
+          <li>AI 지속 학습 및 강의 적용</li>
+          <li>바이브 코딩 학생 교육 확산</li>
+          <li>포트폴리오 웹사이트 제작 시범</li>
+          <li>학생들이 직접 만들 수 있는 환경 구축</li>
+        </ul>
+      </div>
+      <div class="learning-item fade-in">
+        <h3>학습 스타일</h3>
+        <ul>
+          <li>실습형 — 직접 해봐야 이해된다</li>
+          <li>남의 설명보다 내 이해를 우선시</li>
+          <li>다르게 접근하는 것을 즐긴다</li>
+          <li>발표는 어렵지만 끝까지 해낸다</li>
+        </ul>
+      </div>
+      <div class="learning-item fade-in">
+        <h3>추천하고 싶은 것</h3>
+        <ul>
+          <li>바이브 코딩 (꼭 배워야 한다)</li>
+          <li>자바 프로그래밍 기초</li>
+          <li>AI 도구 활용법</li>
+          <li>포트폴리오 직접 만들기</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  © 2026 Ham Taeyang · Game QA Tester
-</footer>
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-name">이윤임</div>
+      <p>유한대학교 컴퓨터공학과 게임콘텐츠전공 교수 · 게임학 박사</p>
+    </div>
+    <div class="footer-dot"></div>
+  </footer>
 
+  <script>
+    // Scroll fade-in animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
